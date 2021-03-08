@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class UserDBHelper extends SQLiteOpenHelper {
 
     public static final int DATABASE_VERSION = 1;
-    public static final String DATABASE_NAME = "ecocial_user_info.db";
+    public static final String DATABASE_NAME = "user_data.db";
     // Column names
     public static final String TABLE_NAME = "user_info";
     public static final String COLUMN_ID = "id";
@@ -49,9 +49,8 @@ public class UserDBHelper extends SQLiteOpenHelper {
         values.put(COLUMN_NAME, name);
         values.put(COLUMN_PASSWORD, password);
 
-        long result = db.insert(TABLE_NAME, null, values);
+        long result = db.insert(TABLE_NAME, null, values); // return -1 if data not inserted.
 
-        // if data inserted incorrectly, should return -1
         if (result == -1) {
             return false;
         }
@@ -61,11 +60,27 @@ public class UserDBHelper extends SQLiteOpenHelper {
 
     }
 
-    public Cursor getData() {
+    public Cursor showData() {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_NAME;
         Cursor data = db.rawQuery(query, null);
         return data;
+    }
+
+    public boolean updateData(String id, String name, String password) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_ID, id);
+        values.put(COLUMN_NAME, name);
+        values.put(COLUMN_PASSWORD, password);
+
+        db.update(TABLE_NAME, values, "ID = ?", new String[] {id});
+        return true;
+    }
+
+    public Integer deleteData(String id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(TABLE_NAME, "ID = ?", new String[] {id});
     }
 
 }

@@ -19,9 +19,6 @@
         <activity
             android:name="com.example.ecocial.AccountSettingsActivity"
             android:label="Account Settings"/>
-        <activity
-            android:name="com.example.ecocial.DisplayUsersActivity"
-            android:label="Users (for testing only)"/>
     </application>
 
 </manifest>
